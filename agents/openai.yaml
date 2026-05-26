@@ -1,0 +1,4 @@
+interface:
+  display_name: "C4D Model Builder"
+  short_description: "Automate Cinema 4D Python modeling workflows"
+  default_prompt: "Use $c4d-model-builder to create a Cinema 4D model and render a preview."
