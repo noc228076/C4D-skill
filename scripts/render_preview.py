@@ -64,6 +64,8 @@ def main():
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
     save_result = bmp.Save(args.output, c4d.FILTER_PNG, None, c4d.SAVEBIT_0)
+    if not save_result:
+        raise RuntimeError("Could not save preview PNG: %s" % args.output)
     print("preview_saved=%s path=%s" % (save_result, args.output))
 
 

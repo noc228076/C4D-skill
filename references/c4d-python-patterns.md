@@ -8,6 +8,12 @@ Run C4D scripts with `c4dpy.exe`, not normal Python. Use placeholders for exampl
 & '<c4dpy.exe>' '<workspace>\script.py'
 ```
 
+If the interpreter path is unknown, use the bundled locator from the skill directory:
+
+```powershell
+python -X utf8 '<skill_dir>\scripts\find_c4dpy.py' --require
+```
+
 Probe API constants:
 
 ```powershell

@@ -1,6 +1,7 @@
 ---
 name: c4d-model-builder
 description: Automate Cinema 4D modeling with Python and c4dpy. Use when the user asks to create, edit, inspect, validate, render, or document scripted C4D/Cinema 4D models, .c4d files, C4D Python API workflows, polygon meshes, splines, sweeps, materials, lighting, cameras, or preview images; also use for Chinese requests such as C4D建模, Cinema 4D建模, 生成c4d模型, 渲染预览, 内六角扳手建模, or agent学习C4D建模.
+compatibility: Requires Cinema 4D with c4dpy.exe for scene creation, inspection, and rendering. Validation and helper scripts should run with Python 3 in UTF-8 mode on Windows.
 ---
 
 # C4D Model Builder
@@ -30,7 +31,7 @@ Do not copy historical project paths into new tasks unless that path is the curr
 
 Use Cinema 4D as a scripted geometry engine, not as a manual UI. Create or update project scripts in the resolved workspace, run them with C4D's `c4dpy.exe`, inspect the saved scene, then render a preview.
 
-1. Locate `c4dpy.exe` from PATH or common Maxon install folders. The C4D executable path is only the interpreter location, not the project/output location.
+1. Locate `c4dpy.exe` with `scripts/find_c4dpy.py`, PATH, or common Maxon install folders. The C4D executable path is only the interpreter location, not the project/output location.
 2. Decompose the target into recognizable geometry: main silhouette, structural parts, functional details, materials, lighting, camera, and optional labels.
 3. Write a project-specific `create_<model>_c4d.py` script in the resolved workspace. Use `c4d.documents.BaseDocument()`, insert objects/materials, set render settings, and save `.c4d` to the same workspace unless the user requested otherwise.
 4. Run the create script with `c4dpy.exe`; do not use normal Python for `import c4d`.
@@ -46,6 +47,12 @@ Use PowerShell command form with placeholders:
 & '<c4dpy.exe>' '<workspace>\create_model_c4d.py'
 ```
 
+Find the C4D Python interpreter when the user has not provided it:
+
+```powershell
+python -X utf8 '<skill_dir>\scripts\find_c4dpy.py' --require
+```
+
 Use bundled utilities:
 
 ```powershell
@@ -54,6 +61,20 @@ Use bundled utilities:
 ```
 
 If C4D constants or behavior are uncertain, probe them with `c4dpy.exe -c "import c4d; print(...)"`.
+
+On Windows, run skill validation or packaging commands with UTF-8 mode when Chinese trigger text is present:
+
+```powershell
+python -X utf8 '<skill_creator_dir>\scripts\quick_validate.py' '<skill_dir>'
+```
+
+When packaging from a Git checkout, stage a clean copy of the skill folder first or use a packager that excludes `.git`; do not ship repository metadata inside the `.skill` archive.
+
+Use the bundled clean packager when preparing this skill for installation or sharing:
+
+```powershell
+python -X utf8 '<skill_dir>\scripts\package_clean_skill.py' '<skill_dir>' '<output_dir>'
+```
 
 ## Modeling Guidance
 
